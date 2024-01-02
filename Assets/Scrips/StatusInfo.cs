@@ -7,6 +7,7 @@ public class StatusInfo : MonoBehaviour
     public float Damage;  // 필요 없을지도.. 정리좀 해야겠다..
     public float HP;  //현HP상태
     public float MaxHP;  //MAX HP값
+    public float WpRange;  //공격 사정거리
 
     public bool isAtt = false;
 
@@ -23,10 +24,9 @@ public class StatusInfo : MonoBehaviour
     //애니메이션 이후 추가
     private void Update()
     {
-        if (HP < 0)
-            HP = 0;
-        else if (HP == 0)
-                Destroy(this.gameObject);// 애니메이션 종료
+        if(HP < 0) { HP = 0;
+            this.GetComponent<Animator>().SetTrigger("Die");
+        }
     }
 
 

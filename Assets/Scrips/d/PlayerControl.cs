@@ -9,6 +9,10 @@ public class PlayerControl : MonoBehaviour
 
     public float moveSpeed;
     public float trunSpeed;
+    [SerializeField]
+    private Animator Panima;
+    [SerializeField]
+    private AnimRepCheck AniRep;
 
     Transform tr;
     // Start is called before the first frame update
@@ -34,6 +38,19 @@ public class PlayerControl : MonoBehaviour
         }
         else { v = h = 0; }
         tr.Rotate(Vector3.up * trunSpeed * Time.deltaTime * r);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        GameObject Gob = other.gameObject;
+
+        Debug.Log(Gob.gameObject.name);
+        if (Gob.tag == "Enemy")
+        {
+            Debug.Log("ÄÝ Ãæ");
+            Panima.SetTrigger("Hit");
+            AniRep.AnimaRepCheck(Panima, "Hit");
+        }
     }
 
 }

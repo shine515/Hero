@@ -63,12 +63,11 @@
     <Compile Include="Assets\Scrips\CameraManager.cs" />
     <Compile Include="Assets\Scrips\d\EnemyAction.cs" />
     <Compile Include="Assets\Animations\Fighter Pack Bundle FREE\Code\CameraControl.cs" />
+    <Compile Include="Assets\Scrips\AnimRepCheck.cs" />
     <Compile Include="Assets\Scrips\AttManager.cs" />
     <Compile Include="Assets\Animations\Fighter Pack Bundle FREE\Code\FighterAnimationDemoFREE.cs" />
     <Compile Include="Assets\Scrips\d\AnimaEffect.cs" />
-    <Compile Include="Assets\Scrips\MonsterCtl.cs" />
     <Compile Include="Assets\Scrips\d\test.cs" />
-    <Compile Include="Assets\Scrips\ActionSystem.cs" />
     <Compile Include="Assets\Scrips\StatusInfo.cs" />
     <Compile Include="Assets\Scrips\d\PlayerControl.cs" />
     <Compile Include="Assets\Scrips\WeaponInfo.cs" />
