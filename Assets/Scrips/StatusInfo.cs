@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StatusInfo : MonoBehaviour
 {
-    public float Damage;  //개체 고유 고격력
+    public float Damage;  // 필요 없을지도.. 정리좀 해야겠다..
     public float HP;  //현HP상태
     public float MaxHP;  //MAX HP값
 
@@ -26,7 +26,7 @@ public class StatusInfo : MonoBehaviour
         if (HP < 0)
             HP = 0;
         else if (HP == 0)
-            Destroy(this);
+                Destroy(this.gameObject);// 애니메이션 종료
     }
 
 

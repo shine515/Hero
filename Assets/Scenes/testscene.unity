@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18154648, g: 0.22718912, b: 0.30740687, a: 1}
+  m_IndirectSpecularColor: {r: 0.4482472, g: 0.49827147, b: 0.5755842, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7254,11 +7254,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8855052669661678444, guid: 2dfbb63c9cdf7504faf4ff26b0581598, type: 3}
   m_PrefabInstance: {fileID: 2024737677}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &780959453 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 9036980633323257398, guid: 2dfbb63c9cdf7504faf4ff26b0581598, type: 3}
-  m_PrefabInstance: {fileID: 2024737677}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &792442157 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5270151484422860312, guid: 0e3cb3ebe1ec60f45a043c4fd049ff46, type: 3}
@@ -8595,12 +8590,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651540eed53d8c34f994ba24d9bda6a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 5
+  Damage: 10
   HP: 100
   MaxHP: 100
   isAtt: 0
   nowWeap: {fileID: 1003692945}
-  nowWeapT: sward
+  nowWeapT: sword
 --- !u!136 &944678988
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8663,11 +8658,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96b93c8ffbcffc46922cf0f5ef48d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
+  moveSpeed: 10
   trunSpeed: 0
-  Myanima: {fileID: 780959453}
-  PlayerModel: {fileID: 944678986}
-  Prg: {fileID: 944678989}
+--- !u!114 &944678991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944678986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d46325004d32a48b8977d40d85fc81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 944678986}
+  Weapo: {fileID: 0}
+  Pstatus: {fileID: 944678987}
 --- !u!1001 &957090166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8916,21 +8923,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8007022423781019756, guid: 2dfbb63c9cdf7504faf4ff26b0581598, type: 3}
   m_PrefabInstance: {fileID: 2024737677}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1003692949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1003692945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 896575d2276fd2149acea152c82415cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damage: 10
-  AttSpeed: 1
-  type: sward
 --- !u!1001 &1013127931
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10039,14 +10031,32 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1124806964}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4d46325004d32a48b8977d40d85fc81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 944678986}
-  Winpo: {fileID: 1003692949}
+  Weapo: {fileID: 0}
   Pstatus: {fileID: 944678987}
+--- !u!114 &1124806972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124806964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c971d6017f4fc444cba5c5e48c3e59c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 0
+  MaxHP: 100
+  isAtt: 0
+  Player: {fileID: 944678986}
+  nowWeap: {fileID: 0}
+  nowWeapT: 
 --- !u!4 &1124947247 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5270151484422860312, guid: 0e3cb3ebe1ec60f45a043c4fd049ff46, type: 3}
@@ -13580,7 +13590,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1214719210320549250, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -13590,6 +13601,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1124806971}
+    - targetCorrespondingSourceObject: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1124806972}
   m_SourcePrefab: {fileID: 100100000, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
 --- !u!1001 &1502185369
 PrefabInstance:
@@ -18466,9 +18480,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8189980434977739222, guid: 2dfbb63c9cdf7504faf4ff26b0581598, type: 3}
       insertIndex: -1
       addedObject: {fileID: 944678987}
-    - targetCorrespondingSourceObject: {fileID: 7229817629626485462, guid: 2dfbb63c9cdf7504faf4ff26b0581598, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 8189980434977739222, guid: 2dfbb63c9cdf7504faf4ff26b0581598, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1003692949}
+      addedObject: {fileID: 944678991}
   m_SourcePrefab: {fileID: 100100000, guid: 2dfbb63c9cdf7504faf4ff26b0581598, type: 3}
 --- !u!1001 &2036672016
 PrefabInstance:
@@ -18549,7 +18563,7 @@ GameObject:
   - component: {fileID: 2039755943}
   m_Layer: 0
   m_Name: AttPos
-  m_TagString: Untagged
+  m_TagString: WEAPON
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18605,7 +18619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 944678986}
-  Winpo: {fileID: 1003692949}
+  Weapo: {fileID: 0}
   Pstatus: {fileID: 944678987}
 --- !u!1001 &2062665865
 PrefabInstance:
