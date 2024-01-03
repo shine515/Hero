@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Enemy
   - WEAPON
+  - MONSATTACKPOS
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Enemy

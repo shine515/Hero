@@ -6,11 +6,13 @@ using UnityEngine.UIElements;
 
 public class PlayerControl : MonoBehaviour
 {
-
     public float moveSpeed;
     public float trunSpeed;
+
     [SerializeField]
     private Animator Panima;
+    [SerializeField]
+    private StatusInfo PStatus;
     [SerializeField]
     private AnimRepCheck AniRep;
 
@@ -19,6 +21,7 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         tr = this.transform;
+        PStatus = GetComponent<StatusInfo>();
     }
 
     // Update is called once per frame
@@ -27,6 +30,7 @@ public class PlayerControl : MonoBehaviour
     float r;
     void Update()
     {
+        ///캐릭터 움직임
         v = Input.GetAxis("Vertical");
         h = Input.GetAxis("Horizontal");
         r = Input.GetAxis("Mouse X");
@@ -40,17 +44,39 @@ public class PlayerControl : MonoBehaviour
         tr.Rotate(Vector3.up * trunSpeed * Time.deltaTime * r);
     }
 
+    private bool HitTime =false;
+    private bool AttackTime =false;
     private void OnTriggerEnter(Collider other)
     {
         GameObject Gob = other.gameObject;
 
-        Debug.Log(Gob.gameObject.name);
-        if (Gob.tag == "Enemy")
+        if (Gob.tag == "MONSATTACKPOS")
         {
-            Debug.Log("콜 충");
-            Panima.SetTrigger("Hit");
-            AniRep.AnimaRepCheck(Panima, "Hit");
+            HitTime = true;
+        }
+        else if (Gob.tag == "Enemy")
+        { AttackTime = true;
+            Hitobj = Gob;
         }
     }
 
+    private void Hit(float Damage) //맞으면 실행 됨
+    {
+        if (HitTime)
+        {
+            PStatus.HP -= Damage;
+            Panima.SetTrigger("Hit");
+            AniRep.AnimaRepCheck(Panima, "Hit");
+            HitTime = false;
+        }
+    }
+    public GameObject Hitobj;
+    private void Attack()
+    {
+        if (AttackTime)
+        {
+            GameObject Attobj = gameObject;
+            Hitobj.SendMessage("Hit", PStatus.Damage, SendMessageOptions.DontRequireReceiver);
+        }
+    }
 }

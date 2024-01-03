@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StatusInfo : MonoBehaviour
 {
-    public float Damage;  // 필요 없을지도.. 정리좀 해야겠다..
     public float HP;  //현HP상태
     public float MaxHP;  //MAX HP값
     public float WpRange;  //공격 사정거리
@@ -14,10 +13,14 @@ public class StatusInfo : MonoBehaviour
     public GameObject nowWeap;
     public string nowWeapT;
 
-    
+
+    public float Damage;  // 필요 없을지도.. 정리좀 해야겠다..
+
     // Start is called before the first frame update
     void Start()
     {
+        Damage = nowWeap.GetComponent<WeaponInfo>().Damage;
+        nowWeapT= nowWeap.GetComponent<WeaponInfo>().type;
         HP = MaxHP;
     }
 

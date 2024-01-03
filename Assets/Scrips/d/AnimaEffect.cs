@@ -18,6 +18,10 @@ public class AnimaEffect : MonoBehaviour
 
     public void Hit()
     {
-        Debug.Log("Hit");
+        //Debug.Log("Hit");
+    }
+    public void MonsAttack()
+    {
+        //Debug.Log("Hit");
     }
 }
