@@ -51,15 +51,34 @@ public class PlayerControl : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         GameObject Gob = other.gameObject;
+        Debug.Log(Gob.gameObject.name);
 
         if (Gob.tag == "MONSATTACKPOS")
         {
             HitTime = true;
         }
-        else if (Gob.tag == "Enemy")
-        { AttackTime = true;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject Gob = collision.gameObject;
+        Debug.Log(Gob.gameObject.name);
+        if (Gob.tag == "Enemy")
+        {
+            AttackTime = true;
             Hitobj = Gob;
         }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        GameObject Gob = collision.gameObject;
+        Debug.Log(Gob.gameObject.name);
+        if (Gob.tag == "Enemy")
+        {
+            AttackTime = false;
+            Hitobj = Gob;
+        }
+
     }
 
     void Move()

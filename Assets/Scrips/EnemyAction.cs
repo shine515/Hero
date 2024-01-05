@@ -47,6 +47,7 @@ public class EnemyAction : MonoBehaviour
     {
         Myanimator = GetComponent<Animator>();
         HP = MaxHP;
+        //nowWeap = this.gameObject.transform.Find("AttPos").gameObject;
         Damage = nowWeap.GetComponent<WeaponInfo>().Damage;
 
         monsterTr = this.transform;
@@ -78,14 +79,15 @@ public class EnemyAction : MonoBehaviour
                 state = State.TRACE;
                 agent.SetDestination(playerTr.position);
             }
-            else if (HP <= 0)
+            else 
+                state = State.IDLE;
+
+            if (HP <= 0)
             {
                 state = State.DIE;
                 Destroy(this.gameObject, 2f);
                 isDie = true;
             }
-            else
-                state = State.IDLE;
         }
     }
 
