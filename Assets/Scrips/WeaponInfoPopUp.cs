@@ -10,9 +10,15 @@ public class WeaponInfoPopUp : MonoBehaviour
     public WeaponInfo weapon;
     public ShopManager shopManager;
 
-    string WeapName;
-    string WeapDamage;
-    string UpgradeLevel;
+    //상점 팝업에 띄울 정보들
+    [SerializeField]
+    private TMP_Text Name;
+    [SerializeField]
+    private TMP_Text Damage;
+    [SerializeField]
+    private TMP_Text Price; //무기가격
+    [SerializeField]
+    private Image Icon;
 
     // Start is called before the first frame update
     void Start()
@@ -39,34 +45,26 @@ public class WeaponInfoPopUp : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            //Debug.Log("player");
-
-            
-        }
-    }
 
     bool ChangeWeap =false;
     IEnumerator ChangeWeapon(Collider other)
     {
+        bool hasExecuted = false;  //GetKeyDown이 작동 안되서 만든 값
         while (ChangeWeap)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKey(KeyCode.E)&&!hasExecuted)
             {
-                Debug.Log("e누름");
                 Status PStatus = other.GetComponent<Status>();
                 PStatus.nowWeap = this.gameObject;
                 foreach (GameObject weapon in PStatus.Weapons)
                 {
-                    if (weapon == PStatus.nowWeap)
+                    if (weapon.name == PStatus.nowWeap.name)
                         weapon.SetActive(true);
                     else
                         weapon.SetActive(false);
 
                 }
+                hasExecuted = true;
             }
             yield return new WaitForEndOfFrame();
         }
@@ -82,22 +80,17 @@ public class WeaponInfoPopUp : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    private TMP_Text Name;
-    [SerializeField]
-    private TMP_Text Damage;
-    [SerializeField]
-    private Image Icon;
     void PopupSet()
     {
         shopManager.ShopPopup();
-        string WeapName = weapon.Name;
-        float WeapDamage = weapon.Damage;
+        string WeapName = "<"+weapon.Name+">";
+        string WeapDamage = "공격력: "+weapon.Damage.ToString();
         //string WeapType = weapon.type;
         Sprite WeapImg = weapon.WeapImg;
 
         Name.text = WeapName;
-        Damage.text = WeapDamage.ToString();
+        Damage.text = WeapDamage;
+        Damage.text = WeapDamage;
         Icon.sprite = WeapImg;
     }
 }
