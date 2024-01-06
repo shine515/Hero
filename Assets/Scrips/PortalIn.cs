@@ -4,16 +4,29 @@ using UnityEngine;
 
 public class PortalIn : MonoBehaviour
 {
-    public Transform TranslatePosition;
+    public Transform Portal_destination;
 
+    // 출구포탈 transform
     private void OnCollisionEnter(Collision col)
     {
-        Debug.Log("충돌체크: "+col.gameObject.tag);
         if (col.gameObject.tag == "Player")
         {
-            col.gameObject.transform.position = GameObject.Find("Portal_destination").transform.position;
-
-           
+            StartCoroutine(FreezeForDuration(col.gameObject, 1f));
         }
     }
+    IEnumerator FreezeForDuration(GameObject player, float duration)
+    {
+        Vector3 exitDirection = Portal_destination.forward; 
+
+        Time.timeScale = 0f;
+        
+        yield return new WaitForSecondsRealtime(duration);
+
+        Time.timeScale = 1f;
+
+        player.gameObject.transform.position = GameObject.Find("Portal_destination").transform.position;
+        player.transform.rotation = Portal_destination.rotation; 
+
+    }
+
 }

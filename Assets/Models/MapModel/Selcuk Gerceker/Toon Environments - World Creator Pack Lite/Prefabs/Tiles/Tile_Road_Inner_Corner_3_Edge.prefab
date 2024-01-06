@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3433414517253738284}
   m_Layer: 0
   m_Name: Tile_Road_Inner_Corner_3_Edge
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

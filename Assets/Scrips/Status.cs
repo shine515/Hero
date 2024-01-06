@@ -21,18 +21,11 @@ public class Status : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Damage = nowWeap.GetComponent<WeaponInfo>().Damage;
-        nowWeapT= nowWeap.GetComponent<WeaponInfo>().type;
+        Damage = nowWeap.GetComponent<Weapon>().Damage;
+        nowWeapT= nowWeap.GetComponent<Weapon>().type;
         HP = MaxHP;
     }
 
-    //애니메이션 이후 추가
-    private void Update()
-    {
-        if(HP < 0) { HP = 0;
-            this.GetComponent<Animator>().SetTrigger("Die");
-        }
-    }
 
 
 }
