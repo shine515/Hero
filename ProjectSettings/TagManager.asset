@@ -9,6 +9,8 @@ TagManager:
   - MONSATTACKPOS
   - WEAPONMODEL
   - SHOP
+  - Water
+  - Land
   layers:
   - Default
   - TransparentFX

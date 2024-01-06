@@ -9,7 +9,7 @@ public class ShopManager : MonoBehaviour
 {
 
     public GameObject WeaPopup;
-    WeaponInfo weapon;
+    Weapon weapon;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +27,7 @@ public class ShopManager : MonoBehaviour
     {
         if (other.tag == "WEAPONMODEL")
         {
-            weapon = other.GetComponent<WeaponInfo>();
+            weapon = other.GetComponent<Weapon>();
             ShopPopup();
         }
     }
@@ -36,7 +36,7 @@ public class ShopManager : MonoBehaviour
     {
         if (other.tag == "WEAPONMODEL")
         {
-            weapon = other.GetComponent<WeaponInfo>();
+            weapon = other.GetComponent<Weapon>();
             WeaPopup.SetActive(false);
         }
     }

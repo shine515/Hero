@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -1719129114787237895}
   m_Layer: 0
   m_Name: Tile_Road_Edge_End_Solo
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

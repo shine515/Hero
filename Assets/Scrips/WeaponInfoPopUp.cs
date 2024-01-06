@@ -4,10 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WeaponInfoPopUp : MonoBehaviour
+public class WeaponPopUp : MonoBehaviour
 {
 
-    public WeaponInfo weapon;
+    public Weapon weapon;
     public ShopManager shopManager;
 
     //»óÁ¡ ÆË¾÷¿¡ ¶ç¿ï Á¤º¸µé
@@ -24,7 +24,7 @@ public class WeaponInfoPopUp : MonoBehaviour
     void Start()
     {
         shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
-        weapon = GetComponent<WeaponInfo>();
+        weapon = GetComponent<Weapon>();
     }
 
     private void Update()

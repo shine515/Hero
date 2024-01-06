@@ -1,124 +1,238 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class PlayerControl : MonoBehaviour
 {
+    float hAxis;
+    float vAxis;
+    Vector3 moveVec;
+    Vector3 dodgeVec;
     [SerializeField]
     float moveSpeed = 4f;
-    Vector3 forward, right;
+    float Combo = 0;
+
+    public float force = 2f;
+
+    bool isHit = false;
+    bool isDie = false;
+
+    /*[SerializeField]
+    float moveSpeed = 4f;
+    Vector3 forward, trun;*/
     public Animator animator;
 
     [SerializeField]
-    private Animator Panima;
+    private Status Status;
     [SerializeField]
-    private Status PStatus;
+    private AnimRepCheck animRepCheck;
     [SerializeField]
-    private AnimRepCheck AniRep;
+    private Weapon weapon;
+    [SerializeField]
+    private float AttDelay;
+    [SerializeField]
+    private GameObject HitEff;
 
-    List<string> UseKeyList = new List<string>() {"w","a","s","d" };
+    //public Collider MyWeapCollider;
+
+    bool isAttReady = false;
+    bool canMove = true;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        forward = Camera.main.transform.forward;
-        forward.y = 0;
-        forward = Vector3.Normalize(forward);
+        animator = GetComponent<Animator>();  //얘도
+        Status = GetComponent<Status>();  //public 변견
 
-        right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
-
-        animator = GetComponent<Animator>();
-        PStatus = GetComponent<Status>();
+        weapon = Status.nowWeap.GetComponent<Weapon>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKey)//UseKeyList.Contains(Input.inputString))
+        if (!isDie)
         {
-            Move();
-        }
-        else
-        {
-            animator.SetBool("Move", false);
-        }
-    }
-
-    private bool HitTime =false;
-    private bool AttackTime =false;
-    private void OnTriggerEnter(Collider other)
-    {
-        GameObject Gob = other.gameObject;
-        Debug.Log(Gob.gameObject.name);
-
-        if (Gob.tag == "MONSATTACKPOS")
-        {
-            HitTime = true;
+            if (Status.HP <= 0)
+            {
+                Debug.Log("tq");
+                this.GetComponent<Animator>().Play("Die");
+                isDie = true;
+            }
+            if (canMove)
+                Move();
+            else
+                animator.SetBool("Move", false);
+            Attack();
         }
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        GameObject Gob = collision.gameObject;
-        Debug.Log(Gob.gameObject.name);
-        if (Gob.tag == "Enemy")
-        {
-            AttackTime = true;
-            Hitobj = Gob;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        GameObject Gob = collision.gameObject;
-        Debug.Log(Gob.gameObject.name);
-        if (Gob.tag == "Enemy")
-        {
-            AttackTime = false;
-            Hitobj = Gob;
-        }
-
-    }
-
     void Move()
     {
-        Vector3 RightMovement = right * moveSpeed * Time.smoothDeltaTime * Input.GetAxisRaw("Horizontal");
-        Vector3 ForwardMovement = forward * moveSpeed * Time.smoothDeltaTime * Input.GetAxisRaw("Vertical");
-        Vector3 FinalMovement = ForwardMovement + RightMovement;
-        Vector3 direction = FinalMovement.normalized;
+        /// 상하좌우 입력값 받아오기///
+        hAxis = Input.GetAxisRaw("Horizontal");
+        vAxis = Input.GetAxisRaw("Vertical");
 
-        //animator.SetFloat("Walk", 1);
+        ///캐릭터 움직임///
+        /*if (isDodge)
+        {
+            moveVec = dodgeVec;
+        }
+        else*/ //회피기동 추락 요소가 있으니 적절하지 않을 것 같다
+        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+        transform.position += moveVec * moveSpeed * Time.deltaTime;
+        animator.SetBool("Move", moveVec != Vector3.zero);
 
-        if (direction != Vector3.zero)
-        {
-            transform.forward = direction;
-            transform.position += FinalMovement;
-            animator.SetBool("Move", true); ;
-        }
-        else
-        {
-            animator.SetBool("Move", false);
-        }
+        ///캐릭터 회전///
+        transform.LookAt(transform.position + moveVec);
     }
 
-    private void Hit(float Damage) //맞으면 실행 됨
+    /// <summary>
+    /// 피격 시 코드
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerEnter(Collider other)
     {
-        if (HitTime)
+        if (other.CompareTag("MONSATTACKPOS") &&!isDie)
         {
-            PStatus.HP -= Damage;
-            Panima.SetTrigger("Hit");
-            AniRep.AnimaRepCheck(Panima, "Hit");
-            HitTime = false;
+            if (!isHit)
+            {
+                Monster mos = other.GetComponent<Monster>();
+                float Damage = mos.Damage;
+                Vector3 pos = other.ClosestPoint(transform.position);
+                Quaternion rot = Quaternion.LookRotation(pos); 
+                GameObject blood = Instantiate(HitEff, pos, rot);
+                Destroy(blood, 1f);
+                IsHit(Damage);
+            }
         }
     }
-    public GameObject Hitobj;
+
+    private void IsHit(float Damage)
+    {
+        Status.HP -= Damage;
+        CantMove();
+        isHit = true;
+        animRepCheck.AnimaRepCheck(animator, "Hit");
+        //GetComponent<Rigidbody>().AddRelativeForce(Vector3.back * force);
+        Invoke("HitEnd", 0.1f);
+    }
+
+    private void HitEnd()
+    {
+        isHit = false;
+        CanMove();
+    }
+    /*IEnumerator Dodge() //일단 봉인..
+    {
+        if (!isDodge)
+        {
+            Debug.Log("회피");
+            isDodge = true;
+            animator.SetTrigger("Dodge");
+            dodgeVec = moveVec;
+            moveSpeed *= 1.5f;
+            yield return new WaitForSeconds(0.8f);
+            moveSpeed /= 1.5f;
+
+            yield return new WaitForSeconds(0.5f);
+            isDodge = false;
+        }
+    }*/
+
+    private void CantMove()
+    { canMove = false; }
+    private void CanMove()
+    { canMove = true; }
+
+    /// <summary>
+    /// 공격코드
+    /// </summary>
     private void Attack()
     {
-        if (AttackTime)
+        AttDelay += Time.deltaTime;
+        isAttReady = weapon.AttSpeed < AttDelay;
+
+        if (Input.GetMouseButtonDown(0))
         {
-            GameObject Attobj = gameObject;
-            Hitobj.SendMessage("Hit", PStatus.Damage, SendMessageOptions.DontRequireReceiver);
+            if (isAttReady)
+            {
+                CantMove();
+                LookatEnemy(15f, 6);
+                animator.SetBool("Attack", true);
+                AttDelay = 0;
+                Attack();
+            }
+        }
+        
+
+        
+    }
+
+    private void attack() //애니메이션에서 작동 
+    {
+        animator.SetBool("Attack", false);
+        eff();
+    }
+
+    private void eff()
+    {
+        weapon.Attarea.SetActive(true);
+    }
+
+    private void enabledEffect()//애니메이션에서 작동 
+    {
+        weapon.Attarea.SetActive(false);
+        CanMove();
+    }
+
+
+    /*Vector3 RightMovement = trun * moveSpeed * Time.smoothDeltaTime * Input.GetAxisRaw("Horizontal");
+    Vector3 ForwardMovement = forward * moveSpeed * Time.smoothDeltaTime * Input.GetAxisRaw("Vertical");
+    Vector3 FinalMovement = ForwardMovement + RightMovement;
+    Vector3 direction = FinalMovement.normalized;
+
+    //animator.SetFloat("Walk", 1);
+
+    if (direction != Vector3.zero)
+    {
+        transform.forward = direction;
+        transform.position += FinalMovement;
+        animator.SetBool("Move", true); ;
+    }
+    else
+    {
+        animator.SetBool("Move", false);
+    }*/
+
+
+    private void LookatEnemy(float AttRange, int layer)
+    {
+        ///근처 Enemy레이어인 콜리더 전부 잡기///
+        Collider Target;
+        List<Collider> WpRange = new List<Collider>(Physics.OverlapSphere(this.transform.position, AttRange, 1 << layer)); //(중심, 반경, 레이어)(적은 6번 레이어)
+
+        if (WpRange.Count < 1) Debug.Log("공격!");
+        else
+        {
+            Target = WpRange[0]; //리스트 첫번째 타겟 설정
+            float shortDis = Vector3.Distance(this.gameObject.transform.position, WpRange[0].transform.position); // 첫번째를 기준으로 잡아주기 
+            foreach (Collider shortist in WpRange)  //제일 가까운 적 찾기
+            {
+                float Distance = Vector3.Distance(gameObject.transform.position, shortist.transform.position);
+
+                if (Distance < shortDis) // 위에서 잡은 기준으로 거리 재기
+                {
+                    Target = shortist;
+                    shortDis = Distance;
+                }
+            }
+            this.transform.LookAt(Target.transform.position);  //그 적쪽으로 회전
         }
     }
 }
+    
+
+
