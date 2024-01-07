@@ -11,6 +11,7 @@ TagManager:
   - SHOP
   - Water
   - Land
+  - Item
   layers:
   - Default
   - TransparentFX

@@ -77,6 +77,7 @@ GameObject:
   - component: {fileID: 2447676380339065682}
   - component: {fileID: 8601128570722351857}
   - component: {fileID: 6562550139648255846}
+  - component: {fileID: 434714381964244746}
   m_Layer: 6
   m_Name: MushroomAngryPBR
   m_TagString: Enemy
@@ -194,6 +195,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &434714381964244746
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875073071404757921}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.2329655, z: 1}
+  m_Center: {x: 0, y: 0.61648273, z: 0}
 --- !u!1 &1326775223490303571
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,6 +449,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2531396651660815649}
   - component: {fileID: 2754773279386234853}
+  - component: {fileID: 2717233282900547907}
   m_Layer: 0
   m_Name: mushroom
   m_TagString: Untagged
@@ -520,6 +543,27 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.58135295, y: 0.17860109, z: -0.0034438968}
     m_Extent: {x: 0.76219964, y: 0.78188795, z: 0.6265786}
   m_DirtyAABB: 0
+--- !u!65 &2717233282900547907
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5278060067821853555}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0500674, y: 1.0847088, z: 0.25521344}
+  m_Center: {x: 0.006076099, y: 0.029095672, z: 0.6507175}
 --- !u!1 &5764857850006842417
 GameObject:
   m_ObjectHideFlags: 0

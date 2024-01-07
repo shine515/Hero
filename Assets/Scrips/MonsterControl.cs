@@ -32,6 +32,8 @@ public class MonsterControl : MonoBehaviour
 
     [SerializeField]
     private GameObject HitEff;
+    [SerializeField]
+    private GameObject[] DropItem;
 
 
 
@@ -133,6 +135,7 @@ public class MonsterControl : MonoBehaviour
                     animator.SetTrigger("Die");
                     Destroy(this.gameObject, 2f);
                     isDie = true;
+                    DropItems();
                     break;
                 case State.IDLE:
                     FightFalse();
@@ -188,7 +191,7 @@ public class MonsterControl : MonoBehaviour
     {
         AttPos.SetActive(true);
     }
-
+    Vector3 pos;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("WEAPON")&& !isDie)
@@ -198,7 +201,7 @@ public class MonsterControl : MonoBehaviour
                 Weapon weap = other.GetComponentInParent<Weapon>();
                 float HitRange = weap.AttSpeed;
                 float Damage = weap.Damage;
-                Vector3 pos = other.ClosestPoint(transform.position);
+                pos = other.ClosestPoint(transform.position);
                 Quaternion rot = Quaternion.LookRotation(pos); //Camera.Main해보기
                 GameObject blood = Instantiate(HitEff, pos, rot);
                 Destroy(blood, 1f);
@@ -223,5 +226,21 @@ public class MonsterControl : MonoBehaviour
     {
         isHit = false;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+    }
+
+    private void Victory()  //SendMassage받을 함수
+    {
+        animator.Play("Victory");
+        animator.SetBool("Victory", true);
+        agent.isStopped = true;
+    }
+
+    private void DropItems()
+    {
+        DropItem = Resources.LoadAll<GameObject>("Prefab/ItemPrefab");
+        foreach (GameObject item in DropItem)
+        {
+            Instantiate(item, pos, Quaternion.Euler(0, 0, 0));
+        }
     }
 }

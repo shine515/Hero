@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 5669005511234527592}
   - component: {fileID: 4093780007381785921}
   - component: {fileID: 3802634180575140530}
+  - component: {fileID: 8658412137843290651}
   m_Layer: 6
   m_Name: CactusPBR
   m_TagString: Enemy
@@ -227,6 +228,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &8658412137843290651
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662468794185850985}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.3463075, z: 1}
+  m_Center: {x: 0, y: 0.67315376, z: 0}
 --- !u!1 &1006438018938304421
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,6 +259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5099805917346535782}
   - component: {fileID: 5052110096836598034}
+  - component: {fileID: 4850149864581512016}
   m_Layer: 0
   m_Name: Cactus
   m_TagString: Untagged
@@ -331,6 +354,27 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.5323887, y: 0.023120299, z: -0.0010211468}
     m_Extent: {x: 0.6477649, y: 0.4573908, z: 1.0422637}
   m_DirtyAABB: 0
+--- !u!65 &4850149864581512016
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006438018938304421}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.57704806, y: 0.55699134, z: 0.17509575}
+  m_Center: {x: -0.010643664, y: -0.07590008, z: 0.73277473}
 --- !u!1 &1800930169189227184
 GameObject:
   m_ObjectHideFlags: 0
