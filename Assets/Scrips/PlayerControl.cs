@@ -188,7 +188,6 @@ public class PlayerControl : MonoBehaviour
                 LookatEnemy(15f, 6);
                 animator.SetBool("Attack", true);
                 AttDelay = 0;
-                Attack();
             }
         }
         

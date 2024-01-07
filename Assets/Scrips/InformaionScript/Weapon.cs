@@ -12,7 +12,8 @@ public class Weapon : MonoBehaviour
     public GameObject Attarea;
     public Sprite WeapImg; //무기이미지
     public float AttSpeed; //공속
-    public float AttCombo; //콤보갯수(공격애니메이션 수)
+    public int Price; //가격
+    public int Upgrade; //업그레이드 횟수  //이후 추가
     //public float IncPar  //공증 계수
     //public float Weight  //무기 중량(추가 미정)
 
@@ -23,7 +24,6 @@ public class Weapon : MonoBehaviour
         Name = "이름";
         Damage = 10;
         type = "sword";
-        AttCombo = 4;
         AttSpeed= 0.5f;
         WeapImg = Resources.Load<Sprite>("Sprite/WeaponImage/" + this.gameObject.name);
         Attarea = this.transform.GetChild(0).gameObject;

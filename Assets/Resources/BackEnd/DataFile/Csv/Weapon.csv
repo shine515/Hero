@@ -1,0 +1,12 @@
+﻿WeaponCode,Name,Damage,Type,AttackSpeed,Upgrade,Price,IsBuy
+101,1번무기,10,sword,0.5,0,100,FALSE
+102,2번무기,10,sword,0.5,0,100,FALSE
+103,3번무기,10,sword,0.5,0,100,FALSE
+104,4번무기,10,sword,0.5,0,100,FALSE
+105,5번무기,10,sword,0.5,0,100,FALSE
+106,6번무기,10,sword,0.5,0,100,FALSE
+107,7번무기,10,sword,0.5,0,100,FALSE
+108,8번무기,10,sword,0.5,0,100,FALSE
+109,9번무기,10,sword,0.5,0,100,FALSE
+110,10번무기,10,sword,0.5,0,100,FALSE
+111,11번무기,10,sword,0.5,0,100,FALSE

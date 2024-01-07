@@ -27,8 +27,8 @@ public class MonsterControl : MonoBehaviour
     private NavMeshAgent agent;
     [SerializeField]
     private AnimRepCheck animRepCheck;
-    [SerializeField]
-    private Monster mos;
+
+    public Monster mos;
 
     [SerializeField]
     private GameObject HitEff;
