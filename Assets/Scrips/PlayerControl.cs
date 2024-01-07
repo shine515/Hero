@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -13,11 +14,9 @@ public class PlayerControl : MonoBehaviour
     Vector3 dodgeVec;
     [SerializeField]
     float moveSpeed = 4f;
-    float Combo = 0;
 
     public float force = 2f;
 
-    bool isHit = false;
     bool isDie = false;
 
     /*[SerializeField]
@@ -58,9 +57,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (Status.HP <= 0)
             {
-                Debug.Log("tq");
-                this.GetComponent<Animator>().Play("Die");
-                isDie = true;
+                Die();
             }
             if (canMove)
                 Move();
@@ -69,7 +66,24 @@ public class PlayerControl : MonoBehaviour
             Attack();
         }
     }
-    void Move()
+
+    void Die()
+    {
+        this.GetComponent<Animator>().Play("Die");
+        isDie = true;
+
+        List<Collider> nearMonList = new List<Collider>(Physics.OverlapSphere(this.transform.position, 20, 1 << 6)); //(중심, 반경, 레이어)(적은 6번 레이어)
+
+        if (nearMonList.Count < 1) Debug.Log("공격!");
+        else
+        {foreach (Collider Mon in nearMonList)  //제일 가까운 적 찾기
+            {
+                Mon.SendMessage("Victory",SendMessageOptions.RequireReceiver);
+            }
+        }
+    }
+
+            void Move()
     {
         /// 상하좌우 입력값 받아오기///
         hAxis = Input.GetAxisRaw("Horizontal");
@@ -95,18 +109,31 @@ public class PlayerControl : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("MONSATTACKPOS") &&!isDie)
+        if (other.CompareTag("MONSATTACKPOS") && !isDie)
         {
-            if (!isHit)
+            Monster mos = other.GetComponent<Monster>();
+            float Damage = mos.Damage;
+            Vector3 pos = other.ClosestPoint(transform.position);
+            Quaternion rot = Quaternion.LookRotation(pos);
+            GameObject blood = Instantiate(HitEff, pos, rot);
+            Destroy(blood, 1f);
+            transform.LookAt(other.transform);
+            GetComponent<Rigidbody>().AddRelativeForce(Vector3.back * force);
+            IsHit(Damage);
+        }
+        else if(other.CompareTag("Item"))
+        {
+            Item item = other.GetComponent<Item>();
+            switch (item.type.ToString())
             {
-                Monster mos = other.GetComponent<Monster>();
-                float Damage = mos.Damage;
-                Vector3 pos = other.ClosestPoint(transform.position);
-                Quaternion rot = Quaternion.LookRotation(pos); 
-                GameObject blood = Instantiate(HitEff, pos, rot);
-                Destroy(blood, 1f);
-                IsHit(Damage);
+                case "Coin":
+                    Status.Coin += item.value;
+                    break;
+                case "Essense":
+                    Status.Essense += item.value;
+                    break;
             }
+            
         }
     }
 
@@ -114,7 +141,6 @@ public class PlayerControl : MonoBehaviour
     {
         Status.HP -= Damage;
         CantMove();
-        isHit = true;
         animRepCheck.AnimaRepCheck(animator, "Hit");
         //GetComponent<Rigidbody>().AddRelativeForce(Vector3.back * force);
         Invoke("HitEnd", 0.1f);
@@ -122,7 +148,6 @@ public class PlayerControl : MonoBehaviour
 
     private void HitEnd()
     {
-        isHit = false;
         CanMove();
     }
     /*IEnumerator Dodge() //일단 봉인..
@@ -163,7 +188,6 @@ public class PlayerControl : MonoBehaviour
                 LookatEnemy(15f, 6);
                 animator.SetBool("Attack", true);
                 AttDelay = 0;
-                Attack();
             }
         }
         
