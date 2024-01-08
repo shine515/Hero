@@ -34,6 +34,8 @@ public class PlayerControl : MonoBehaviour
     private float AttDelay;
     [SerializeField]
     private GameObject HitEff;
+    [SerializeField]
+    private GameObject SpinEff;
 
     //public Collider MyWeapCollider;
 
@@ -83,7 +85,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-            void Move()
+    void Move()
     {
         /// 상하좌우 입력값 받아오기///
         hAxis = Input.GetAxisRaw("Horizontal");
@@ -113,13 +115,15 @@ public class PlayerControl : MonoBehaviour
         {
             Monster mos = other.GetComponent<Monster>();
             float Damage = mos.Damage;
-            Vector3 pos = other.ClosestPoint(transform.position);
-            Quaternion rot = Quaternion.LookRotation(pos);
-            GameObject blood = Instantiate(HitEff, pos, rot);
-            Destroy(blood, 1f);
-            transform.LookAt(other.transform);
-            GetComponent<Rigidbody>().AddRelativeForce(Vector3.back * force);
-            IsHit(Damage);
+
+            Hitsub(other, Damage);
+        }
+        else if(other.CompareTag("BosSkill"))
+        {
+            BossSkillDam bos = other.GetComponent<BossSkillDam>();
+            float Damage = bos.Damage;
+
+            Hitsub(other, Damage);
         }
         else if(other.CompareTag("Item"))
         {
@@ -135,6 +139,19 @@ public class PlayerControl : MonoBehaviour
             }
             
         }
+
+        ///if(boss)추가
+    }
+
+    void Hitsub(Collider other, float Damage)
+    {
+        Vector3 pos = other.ClosestPoint(transform.position);
+        Quaternion rot = Quaternion.LookRotation(pos);
+        GameObject blood = Instantiate(HitEff, pos, rot);
+        Destroy(blood, 1f);
+        transform.LookAt(other.transform);
+        GetComponent<Rigidbody>().AddRelativeForce(Vector3.back * force);
+        IsHit(Damage);
     }
 
     private void IsHit(float Damage)
@@ -212,6 +229,12 @@ public class PlayerControl : MonoBehaviour
         CanMove();
     }
 
+    private void Spineff()
+    {
+        Quaternion rot = Quaternion.LookRotation(new Vector3(90, 0, 0));
+        weapon.Attarea.SetActive(true);
+        GameObject Spineff = Instantiate(SpinEff, this.transform.position, rot);
+    }
 
     /*Vector3 RightMovement = trun * moveSpeed * Time.smoothDeltaTime * Input.GetAxisRaw("Horizontal");
     Vector3 ForwardMovement = forward * moveSpeed * Time.smoothDeltaTime * Input.GetAxisRaw("Vertical");
