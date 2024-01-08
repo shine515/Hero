@@ -12,6 +12,10 @@ TagManager:
   - Water
   - Land
   - Item
+  - Boss
+  - FxTemporaire
+  - BosSkill
+  - BossWeapon
   layers:
   - Default
   - TransparentFX
